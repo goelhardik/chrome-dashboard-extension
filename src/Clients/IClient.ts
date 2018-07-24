@@ -1,7 +1,7 @@
 export class Item {
-    key: string;
     title: string;
     description: string;
+    thumbnail: string;
 }
 
 export class Feed {

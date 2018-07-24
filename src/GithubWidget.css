@@ -1,0 +1,58 @@
+
+.item-cell {
+  box-sizing: border-box;
+  border-bottom: 1px solid;
+  display: flex;
+}
+
+.item-image {
+  margin: 1%;
+  border-radius: 10%;
+}
+
+.widget-container {
+  display: flex;
+  flex-flow: row;
+  height: 40%;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.widget {
+  flex: 0 0 auto;
+  border: 1px solid;
+  width: 40%;
+  height: 40%;
+}
+/* 
+  .ms-ListBasicExample-itemCell:hover {
+    background: #EEE;
+  }
+
+  .ms-ListBasicExample-itemImage {
+    flex-shrink: 0;
+  }
+
+  .ms-ListBasicExample-itemContent {
+    overflow: hidden;
+    flex-grow: 1;
+  }
+
+  .ms-ListBasicExample-itemName {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .ms-ListBasicExample-itemIndex {
+    font-size: $ms-font-size-s;
+    color: $ms-color-neutralTertiary;
+    margin-bottom: 10px;
+  }
+
+  .ms-ListBasicExample-chevron {
+    align-self: center;
+    color: $ms-color-neutralTertiary;
+    font-size: $ms-font-size-l;
+    flex-shrink: 0;
+  } */
