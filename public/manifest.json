@@ -1,0 +1,19 @@
+{
+  "manifest_version": 2,
+  "name": "Chrome feed aggregator",
+  "version": "0.1",
+  "description": "Chrome feed aggregator",
+  "chrome_url_overrides" : {
+    "newtab": "index.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "css": ["/static/css/main.css"],
+      "js": ["/static/js/main.js"]
+    }
+  ],
+  "permissions": [
+    "https://github.com/login/oauth/access_token", "management"
+  ]
+}
