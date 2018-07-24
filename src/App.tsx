@@ -6,11 +6,11 @@ import { GithubClient } from './Clients/GithubClient';
 // import { Feed } from './Clients/IClient';
 import { GithubWidget } from './GithubWidget';
 // import * as OAuth from './OAuth.js';
-import { OAuth } from './OAuth';
+import { AccessTokenRetriever, AuthorizationConstants } from './AccessTokenRetriever';
 
 class App extends React.Component<any, any> {
   private github: any;
-  private oauth: any;
+  private tokenRetriever: AccessTokenRetriever;
 
   constructor(props: any) {
     super(props);
@@ -19,43 +19,47 @@ class App extends React.Component<any, any> {
       githubFeed: null
     };
     this.github = new GithubClient();
-    this.oauth = new OAuth();
+    this.tokenRetriever = new AccessTokenRetriever();
 
     this.onButtonClick = this.onButtonClick.bind(this);
     this.onFeedGot = this.onFeedGot.bind(this);
   }
 
   public render() {
-
-    // Also append the current URL to the params
-    // const oauth = OAuth.OAuth;
-    // if (!this.state.githubFeed) {
-    //   oauth.authorize((storage: any) => {
-    //     this.setState({
-    //       local: storage
-    //     });
-    //   });
-    // }
-    this.oauth.authorize(() => {});
+    this.tokenRetriever.retrieveAccessToken();
 
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src="https://facebook.github.io/react/img/logo.svg" className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
+      <div>
+        <div className="App">
+          <header className="App-header">
+            <img src="https://facebook.github.io/react/img/logo.svg" className="App-logo" alt="logo" />
+            <h1 className="App-title">Welcome to React</h1>
+          </header>
+          <p className="App-intro">
+            To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        <PrimaryButton
-          text="test"
-          onClick={this.onButtonClick} />;
+          <PrimaryButton
+            text="test"
+            onClick={this.onButtonClick} />;
         {this.state.githubFeed &&
-          <GithubWidget
-            items={this.state.githubFeed} />
-        }
+            <GithubWidget
+              items={this.state.githubFeed} />
+          }
+        </div>
+        <div>
+          <PrimaryButton
+            text="read token"
+            onClick={this.onReadTokenClick} />
+        </div>s
       </div>
     );
+  }
+
+  private onReadTokenClick = () => {
+    const tokenKey = AuthorizationConstants.github.storageKey;
+    chrome.storage.sync.get([tokenKey], (result) => {
+      console.log("Found Value: " + result[tokenKey]);
+    });
   }
 
   private onButtonClick() {
