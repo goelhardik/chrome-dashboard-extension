@@ -1,0 +1,18 @@
+.header{
+    height: 40px;
+    overflow:hidden;
+    display: table;
+}
+
+.icon {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    color: black;
+}
+
+.imageHeader{
+    min-width:100%;
+}
+
+

@@ -2,6 +2,7 @@ export class Item {
     title: string;
     description: string;
     thumbnail: string;
+    url?: string;
 }
 
 export class Feed {

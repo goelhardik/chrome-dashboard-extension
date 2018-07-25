@@ -1,0 +1,28 @@
+@import url('../node_modules/font-awesome/css/font-awesome.min.css');
+
+.parent{
+    display:flex;
+    flex-direction: column;
+}
+
+.hackerHeadline{
+    font-size: 11pt;
+    line-height: 14pt;
+    padding-left: 8px;
+    padding-right: 8px;
+    font-family: Verdana, Geneva, sans-serif;
+}
+
+.fa-hacker-news{
+    color: black;
+}
+
+a:visited {
+    color: #828282;
+    text-decoration: none;
+}
+
+a:link {
+    color: #000000;
+    text-decoration: none;
+}

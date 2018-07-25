@@ -7,7 +7,7 @@ export class GithubClient extends ApiClient implements IClient {
 
     public getFeed(callback: any, accessToken?: any, errorCallback?: any) {
         // tslint:disable-next-line:no-console
-        if(accessToken) {
+        if (accessToken) {
             console.log("calling with access token: " + accessToken);
             console.log("accesstoken is: " + accessToken[AuthorizationConstants.github.storageKey]);
         }

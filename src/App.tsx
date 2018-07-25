@@ -1,8 +1,7 @@
 import * as React from 'react';
 import './App.css';
-// const OAuth = require('./OAuth');
-// import { Feed } from './Clients/IClient';
 import { GithubWidget } from './GithubWidget';
+import { HackerNewsWidget } from './HackerNewsWidget';
 // import * as OAuth from './OAuth.js';
 import './GithubWidget.css';
 import { CustomizingPanel } from './Customizer/CustomizingPanel';
@@ -59,7 +58,7 @@ class App extends React.Component<any, IAppState> {
             <GithubWidget 
               dragWidget={this.dragElement} />}
           {this.state.widgetChoices["hackernews"].selected && 
-            <GithubWidget 
+            <HackerNewsWidget 
               dragWidget={this.dragElement} />}
         </div>
       </div>

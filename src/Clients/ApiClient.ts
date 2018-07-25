@@ -16,7 +16,7 @@ export class ApiClient {
             }
         });
         xhr.open(method, url, true);
-        headers.forEach(header => {
+        headers && headers.forEach(header => {
             xhr.setRequestHeader(header[0], header[1]);
         });
         xhr.send();

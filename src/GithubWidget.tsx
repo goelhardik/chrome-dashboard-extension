@@ -9,6 +9,7 @@ import './GithubWidget.css';
 import { GithubClient } from './Clients/GithubClient';
 import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib/Spinner';
 import { AuthorizationConstants, AccessTokenRetriever } from './AccessTokenRetriever';
+import { WidgetHeader } from './WidgetHeader';
 
 export interface IGithubWidgetProps {
   dragWidget: (element: any) => void
@@ -54,8 +55,13 @@ export class GithubWidget extends React.Component<IGithubWidgetProps, IGithubWid
 
     return (
       <div className="widget" id="github-widget">
-        <div id="github-widget-header">Click here to move</div>
-        {content}
+        <div className="parent" id="github-widget-header">
+          <WidgetHeader
+            backgroundColor={"#000000"}
+            href={"https://github.com/"}
+            icon={<i className="fa fa-github fa-3x" aria-hidden="true"></i>} />
+          {content}
+        </div>
       </div>
     );
   }
