@@ -1,4 +1,5 @@
-import { IClient, Feed, Item } from "./IClient";
+// import { IClient, Feed, Item } from "./IClient";
+import { IClient } from "./IClient";
 import { ApiClient } from "./ApiClient";
 import { AuthorizationConstants } from "../AccessTokenRetriever";
 
@@ -10,29 +11,8 @@ export class GithubClient extends ApiClient implements IClient {
             console.log("calling with access token: " + accessToken);
             console.log("accesstoken is: " + accessToken[AuthorizationConstants.github.storageKey]);
         }
-        this.performXhrRequest("GET", "https://api.github.com/user", (response: any) => {
-            response = JSON.parse(response);
-            this.performXhrRequest("GET", 
-            "https://api.github.com/users/" + response["login"] + "/received_events", 
-            (innerResponse: any) => {
-                this.onFeedsReceived(innerResponse, callback);
-            }, [["Authorization", "token " + accessToken]], errorCallback)
+        this.performXhrRequest("GET", "https://github.com/dashboard-feed", (response: any) => {
+            callback(response);
         }, [["Authorization", "token " + accessToken]], errorCallback);
-    }
-
-    private onFeedsReceived = (innerResponse: any, callback: any) => {
-        const listItems = JSON.parse(innerResponse);
-        let feed = new Feed();
-        feed.items = new Array<Item>();
-        (listItems as any[]).forEach(item => {
-            console.log(item);
-            const thumbnail = item["actor"]["avatar_url"];
-            feed.items.push({
-                thumbnail : thumbnail,
-                title: item["actor"]["display_login"],
-                description: ""
-            })
-        });
-        callback(feed);
     }
 }

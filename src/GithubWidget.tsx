@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { Feed, Item } from './Clients/IClient';
+// import { Feed, Item } from './Clients/IClient';
+import { Item } from './Clients/IClient';
 import './App.css';
 // import { PrimaryButton } from 'office-ui-fabric-react/lib/Button';
-import { List } from 'office-ui-fabric-react/lib/List';
+// import { List } from 'office-ui-fabric-react/lib/List';
 import { PrimaryButton } from 'office-ui-fabric-react/lib/Button';
-import { Image, ImageFit } from 'office-ui-fabric-react/lib/Image';
 // import { GithubClient } from './Clients/GithubClient';
 import './GithubWidget.css';
 import { GithubClient } from './Clients/GithubClient';
@@ -16,7 +16,7 @@ export interface IGithubWidgetProps {
 }
 
 export interface IGithubWidgetState {
-  feed: Item[];
+  feed: any;
   isLoadingFeed: boolean;
   accessToken: string;
 
@@ -31,8 +31,8 @@ export class GithubWidget extends React.Component<any, IGithubWidgetState> {
     this.github = new GithubClient();
     this.tokenRetriever = new AccessTokenRetriever(this.setAccessToken);
     this.state = {
-      feed: new Array<Item>(),
-      isLoadingFeed: true,
+      feed: null,
+      isLoadingFeed: false,
       accessToken: null // check if this correct or not
     };
     this.checkAndSetToken();
@@ -41,7 +41,7 @@ export class GithubWidget extends React.Component<any, IGithubWidgetState> {
   public render() {
     let content: JSX.Element;
     if (this.state.accessToken && !this.state.isLoadingFeed) {
-      content =this.renderFeedsContent();
+      content = this.renderFeedsContent();
     } else if (this.state.isLoadingFeed) {
       content = this.renderSpinner();
     } else {
@@ -49,16 +49,16 @@ export class GithubWidget extends React.Component<any, IGithubWidgetState> {
     }
 
     return (
-      <div className="widget">
+      <div className="widget" id="github-widget">
+        <div id="github-widget-header">Click here to move</div>
         {content}
       </div>
     );
   }
 
   private renderFeedsContent = (): JSX.Element => {
-    return <div> <List
-      items={this.state.feed}
-      onRenderCell={this.onRenderCell} />
+    return <div>
+      <div dangerouslySetInnerHTML={{ __html: this.state.feed }} />
       <PrimaryButton
         text="Sign Out of GitHub"
         onClick={this.invalidateAccessToken} />
@@ -114,30 +114,27 @@ export class GithubWidget extends React.Component<any, IGithubWidgetState> {
     this.tokenRetriever.retrieveAccessToken();
   }
 
-  private onFeedGot = (response: Feed) => {
+  private onFeedGot = (response: string) => {
+    response = this.manipulateDom(response);
     console.log(response);
     this.setState({
-      feed: response.items,
+      feed: response,
       isLoadingFeed: false
     });
   }
 
-  private onRenderCell = (item: Item, index: number | undefined): JSX.Element => {
-    return (
-      <div className="item-cell" data-is-focusable={true}>
-        <Image
-          className="item-image"
-          src={item.thumbnail}
-          width={50}
-          height={50}
-          imageFit={ImageFit.cover}
-        />
-        <div className="ms-ListBasicExample-itemContent">
-          <div className="ms-ListBasicExample-itemName">{item.title}</div>
-          <div className="ms-ListBasicExample-itemIndex">{`Item ${index}`}</div>
-          <div className="ms-ListBasicExample-itemDesc">{item.description}</div>
-        </div>
-      </div>
-    );
+  private manipulateDom = (dom: string): string => {
+    let re = /href="/gi;
+    dom = dom.replace(re, "href=\"https://github.com");
+
+    let doc = document.createElement('html');
+    doc.innerHTML = dom;
+    // remove forms (star and unstar actions) // TODO add later and call github apis
+    const forms = doc.getElementsByTagName("form");
+    for (let form of Array.from(forms)) {
+      form.remove();
+    }
+
+    return doc.innerHTML;
   }
 }
