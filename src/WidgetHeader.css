@@ -1,11 +1,13 @@
 .header{
     height: 40px;
+    width: 100%;
     overflow:hidden;
-    display: table;
+    display: inline-block;
+    text-align: center;
+    cursor: move;
 }
 
 .icon {
-    display: table-cell;
     vertical-align: middle;
     text-align: center;
     color: black;

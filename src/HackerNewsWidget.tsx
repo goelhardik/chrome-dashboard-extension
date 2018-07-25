@@ -35,7 +35,7 @@ export class HackerNewsWidget extends React.Component<IHackerNewsWidgetProps, IH
     public componentDidMount() {
         const widget = document.getElementById("hackernews-widget");
         this.props.dragWidget(widget);
-      }
+    }
 
     public render() {
         let content: JSX.Element;
@@ -54,13 +54,14 @@ export class HackerNewsWidget extends React.Component<IHackerNewsWidgetProps, IH
 
         return (
             <div className="widget" id="hackernews-widget">
-                <div className="parent" id="hackernews-widget-header">
+                {/* <div className="parent" id="hackernews-widget-header"> */}
                     <WidgetHeader
+                        id="hackernews-widget"
                         backgroundColor={"#F46523"}
                         href={"https://news.ycombinator.com/"}
                         icon={<i className="fa fa-hacker-news fa-3x" aria-hidden="true"></i>} />
                     {content}
-                </div>
+                {/* </div> */}
             </div>
         );
     }

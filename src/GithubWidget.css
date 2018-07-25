@@ -119,6 +119,10 @@ a {
   box-shadow: 0 2px 2px 0 rgba(0,0,0,.16), 0 0 0 2px rgba(0,0,0,.04);
 }
 
+.feed-content {
+    margin-top: 50px;
+}
+
 #github-widget {
   position: absolute;
   background-color: rgb(255, 255, 255);
@@ -141,10 +145,15 @@ a {
 }
 
 #github-widget-header {
-    padding: 10px;
     cursor: move;
     z-index: 10;
     color: #fff;
+}
+
+
+.parent{
+    display:flex;
+    flex-direction: column;
 }
 
 /* 

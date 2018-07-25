@@ -55,13 +55,14 @@ export class GithubWidget extends React.Component<IGithubWidgetProps, IGithubWid
 
     return (
       <div className="widget" id="github-widget">
-        <div className="parent" id="github-widget-header">
+        {/* <div className="parent" id="github-widget-header"> */}
           <WidgetHeader
+            id="github-widget"
             backgroundColor={"#000000"}
             href={"https://github.com/"}
             icon={<i className="fa fa-github fa-3x" aria-hidden="true"></i>} />
           {content}
-        </div>
+        {/* </div> */}
       </div>
     );
   }
@@ -143,6 +144,12 @@ export class GithubWidget extends React.Component<IGithubWidgetProps, IGithubWid
     const forms = doc.getElementsByTagName("form");
     for (let form of Array.from(forms)) {
       form.remove();
+    }
+
+    // add target blank to all links
+    const links = doc.getElementsByTagName("a");
+    for (let link of Array.from(links)) {
+      link.setAttribute("target", "_blank");
     }
 
     return doc.innerHTML;

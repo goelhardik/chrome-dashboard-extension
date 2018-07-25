@@ -6,6 +6,7 @@ export interface IWidgetHeaderProps {
     icon?: JSX.Element;
     title?: string;
     href: string;
+    id?: string;
 }
 
 export class WidgetHeader extends React.Component<IWidgetHeaderProps, {}> {
@@ -15,7 +16,7 @@ export class WidgetHeader extends React.Component<IWidgetHeaderProps, {}> {
 
     public render(){
         return(
-            <div className="header" style={{ backgroundColor: `${this.props.backgroundColor}`}} >
+            <div id={"drag-and-drop-" + this.props.id} className="header" style={{ backgroundColor: `${this.props.backgroundColor}`}} >
                 <a className="icon" href={this.props.href} target="_blank">{this.props.icon && this.props.icon} </a>
             </div>
         );
