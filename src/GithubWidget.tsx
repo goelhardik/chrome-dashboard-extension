@@ -1,6 +1,5 @@
 import * as React from 'react';
 // import { Feed, Item } from './Clients/IClient';
-import { Item } from './Clients/IClient';
 import './App.css';
 // import { PrimaryButton } from 'office-ui-fabric-react/lib/Button';
 // import { List } from 'office-ui-fabric-react/lib/List';
@@ -12,7 +11,7 @@ import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib/Spinner';
 import { AuthorizationConstants, AccessTokenRetriever } from './AccessTokenRetriever';
 
 export interface IGithubWidgetProps {
-  items: Item[];
+  dragWidget: (element: any) => void
 }
 
 export interface IGithubWidgetState {
@@ -22,11 +21,11 @@ export interface IGithubWidgetState {
 
 }
 
-export class GithubWidget extends React.Component<any, IGithubWidgetState> {
+export class GithubWidget extends React.Component<IGithubWidgetProps, IGithubWidgetState> {
   private github: GithubClient;
   private tokenRetriever: AccessTokenRetriever;
 
-  constructor(props: any) {
+  constructor(props: IGithubWidgetProps) {
     super(props);
     this.github = new GithubClient();
     this.tokenRetriever = new AccessTokenRetriever(this.setAccessToken);
@@ -36,6 +35,11 @@ export class GithubWidget extends React.Component<any, IGithubWidgetState> {
       accessToken: null // check if this correct or not
     };
     this.checkAndSetToken();
+  }
+
+  public componentDidMount() {
+    const widget = document.getElementById("github-widget");
+    this.props.dragWidget(widget);
   }
 
   public render() {

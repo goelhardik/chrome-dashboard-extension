@@ -5,38 +5,74 @@ import './App.css';
 import { GithubWidget } from './GithubWidget';
 // import * as OAuth from './OAuth.js';
 import './GithubWidget.css';
+import { CustomizingPanel } from './Customizer/CustomizingPanel';
+import { Choice } from './Customizer/WidgetGroup';
 
-class App extends React.Component<any, any> {
+interface IAppState {
+  widgetChoices: { [key: string]: Choice }
+}
+
+class App extends React.Component<any, IAppState> {
 
   constructor(props: any) {
     super(props);
-  }
 
-  public componentDidMount() {
-    const widget = document.getElementById("github-widget");
-    this.dragElement(widget);
+    let choices: { [key: string]: Choice } = {};
+    choices["github"] = {
+      "name": "Github",
+      "key": "github",
+      "img": "GitHub-Mark-32px.png",
+      "selected": true
+    };
+    choices["hackernews"] = {
+      "name": "HackerNews",
+      "key": "hackernews",
+      "img": "GitHub-Mark-32px.png",
+      "selected": false
+    };
+    choices["vsts"] = {
+      "name": "VSTS",
+      "key": "vsts",
+      "img": "visual-studio-team-services.jpg",
+      "selected": false
+    };
+
+    this.state = {
+      widgetChoices: choices
+    };
   }
 
   public render() {
+
     return (
       <div className="app-container">
         <div className="App">
           <header className="App-header">
-            <img src="https://facebook.github.io/react/img/logo.svg" className="App-logo" alt="logo" />
-            <h1 className="App-title">Welcome to React</h1>
+            <h1 className="App-title">Dashboard</h1>
           </header>
-          <p className="App-intro">
-            To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+          <CustomizingPanel 
+            choices={this.state.widgetChoices}
+            onDismissPanel={this.updateChoices} />
         </div>
         <div className="widget-container">
-          <GithubWidget />
+          {this.state.widgetChoices["github"].selected && 
+            <GithubWidget 
+              dragWidget={this.dragElement} />}
+          {this.state.widgetChoices["hackernews"].selected && 
+            <GithubWidget 
+              dragWidget={this.dragElement} />}
         </div>
       </div>
     );
   }
 
-  private dragElement(elmnt: any) {
+  private updateChoices = (choices : { [key: string]: Choice }) => {
+    this.setState({
+      widgetChoices: choices
+    });
+  }
+
+  private dragElement = (elmnt: any) => {
     var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
     if (document.getElementById(elmnt.id + "-header")) {
       /* if present, the header is where you move the DIV from:*/

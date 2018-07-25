@@ -1,0 +1,46 @@
+.choice-box-wrap {
+
+}
+
+.choice-box {
+  background-color: rgb(244, 244, 244);
+  cursor: pointer; 
+  border-width: 2px;
+  border-style: solid;
+  border-color: transparent;
+  position: relative;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.choice-box-selected {
+  border-color: rgb(0, 120, 212);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.choice-box-selected:hover {
+  border-color: rgb(0, 120, 212);
+}
+
+.checkbox {
+    right: 2px;
+    top: 2px;
+    position: absolute;
+}
+
+.choice-box-content {
+  text-align: center;
+}
+
+
+.choice-box:hover {
+  border-color: rgb(200, 200, 200);
+}
+
+.choice-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 100px);
+    grid-column-gap: 10px;
+}
