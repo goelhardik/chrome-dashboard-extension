@@ -9,6 +9,7 @@ import { Image, ImageFit } from 'office-ui-fabric-react/lib/Image';
 import './GithubWidget.css';
 import { GithubClient } from './Clients/GithubClient';
 import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib/Spinner';
+import { AuthorizationConstants, AccessTokenRetriever } from './AccessTokenRetriever';
 
 export interface IGithubWidgetProps {
   items: Item[];
@@ -17,41 +18,78 @@ export interface IGithubWidgetProps {
 export interface IGithubWidgetState {
   feed: Item[];
   isLoadingFeed: boolean;
+  accessToken: string;
+
 }
 
 export class GithubWidget extends React.Component<any, IGithubWidgetState> {
   private github: GithubClient;
+  private tokenRetriever: AccessTokenRetriever;
 
   constructor(props: any) {
     super(props);
     this.github = new GithubClient();
+    this.tokenRetriever = new AccessTokenRetriever(this.setAccessToken);
     this.state = {
       feed: new Array<Item>(),
-      isLoadingFeed: false
+      isLoadingFeed: true,
+      accessToken: null // check if this correct or not
     };
-
-    this.renderSignInButton = this.renderSignInButton.bind(this);
-    this.onRenderCell = this.onRenderCell.bind(this);
-    this.onButtonClick = this.onButtonClick.bind(this);
-    this.onFeedGot = this.onFeedGot.bind(this);
+    this.checkAndSetToken();
   }
 
   public render() {
     let content: JSX.Element;
-    if (this.state.feed.length == 0 && !this.state.isLoadingFeed) {
-      content = this.renderSignInButton();
+    if (this.state.accessToken && !this.state.isLoadingFeed) {
+      content =this.renderFeedsContent();
     } else if (this.state.isLoadingFeed) {
       content = this.renderSpinner();
     } else {
-      content = <List
-            items={this.state.feed}
-            onRenderCell={this.onRenderCell} />;
+      content = this.renderSignInButton();
     }
+
     return (
-        <div className="widget">
-          {content}
-        </div>
+      <div className="widget">
+        {content}
+      </div>
     );
+  }
+
+  private renderFeedsContent = (): JSX.Element => {
+    return <div> <List
+      items={this.state.feed}
+      onRenderCell={this.onRenderCell} />
+      <PrimaryButton
+        text="Sign Out of GitHub"
+        onClick={this.invalidateAccessToken} />
+    </div>
+  }
+
+  private checkAndSetToken = () => {
+    chrome.storage.sync.get([AuthorizationConstants.github.storageKey], (result) => {
+      const accessToken = result[AuthorizationConstants.github.storageKey];
+      if (accessToken === null || accessToken === undefined) {
+        console.log("Failed to read accessToken from storage");
+      }
+      this.setAccessToken(accessToken);
+    })
+  }
+
+  private setAccessToken = (accessToken: string) => {
+    this.setState({
+      accessToken: accessToken,
+      isLoadingFeed: true
+    });
+    this.github.getFeed(this.onFeedGot, accessToken, this.invalidateAccessToken);
+  }
+
+  private invalidateAccessToken = () => {
+    chrome.storage.sync.remove([AuthorizationConstants.github.storageKey], () => {
+      this.setState({
+        accessToken: null,
+        isLoadingFeed: false
+      });
+    })
   }
 
   private renderSpinner(): JSX.Element {
@@ -61,22 +99,22 @@ export class GithubWidget extends React.Component<any, IGithubWidgetState> {
     )
   }
 
-  private renderSignInButton(): JSX.Element {
+  private renderSignInButton = (): JSX.Element => {
     return (
       <PrimaryButton
-        text="test"
-        onClick={this.onButtonClick} />
+        text="Log in to view your github feed"
+        onClick={this.onSignOnClicked} />
     );
   }
 
-  private onButtonClick() {
+  private onSignOnClicked = () => {
     this.setState({
-      isLoadingFeed: true 
+      isLoadingFeed: true
     });
-    this.github.getFeed(this.onFeedGot);
+    this.tokenRetriever.retrieveAccessToken();
   }
 
-  private onFeedGot(response: Feed) {
+  private onFeedGot = (response: Feed) => {
     console.log(response);
     this.setState({
       feed: response.items,
@@ -84,7 +122,7 @@ export class GithubWidget extends React.Component<any, IGithubWidgetState> {
     });
   }
 
-  private onRenderCell(item: Item, index: number | undefined): JSX.Element {
+  private onRenderCell = (item: Item, index: number | undefined): JSX.Element => {
     return (
       <div className="item-cell" data-is-focusable={true}>
         <Image

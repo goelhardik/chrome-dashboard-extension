@@ -9,5 +9,5 @@ export class Feed {
 }
 
 export interface IClient {
-    getFeed(callback: any): void;
+    getFeed(callback: any, authorizationToken? : string, errorCallback?: any): void;
 }

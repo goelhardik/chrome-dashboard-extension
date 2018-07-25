@@ -11,6 +11,11 @@ export const AuthorizationConstants = {
 }
 
 export class AccessTokenRetriever {
+    private onTokenRetrieved: (token: string) => void;
+
+    constructor(onTokenRetrieved: (token: string) => void) {
+        this.onTokenRetrieved = onTokenRetrieved;
+    }
 
     public retrieveAccessToken = () => {
         var redirectUrl = this.getRedirectUrl();
@@ -78,5 +83,6 @@ export class AccessTokenRetriever {
         chrome.storage.sync.set(storageObject, () => {
             console.log("Set token value");
         });
+        this.onTokenRetrieved(accessToken);
     }
 }
