@@ -6,6 +6,7 @@ import { HackerNewsWidget } from './HackerNewsWidget';
 import './GithubWidget.css';
 import { CustomizingPanel } from './Customizer/CustomizingPanel';
 import { Choice } from './Customizer/WidgetGroup';
+// import {Header} from './Header';
 
 interface IAppState {
   widgetChoices: { [key: string]: Choice }
@@ -42,13 +43,13 @@ class App extends React.Component<any, IAppState> {
   }
 
   public render() {
-
     return (
       <div className="app-container">
         <div className="App">
-          <header className="App-header">
+          {/* <header className="App-header">
             <h1 className="App-title">Dashboard</h1>
-          </header>
+          </header> */}
+          {/* <Header /> */}
           <CustomizingPanel 
             choices={this.state.widgetChoices}
             onDismissPanel={this.updateChoices} />

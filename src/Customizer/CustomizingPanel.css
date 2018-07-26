@@ -1,0 +1,28 @@
+.header-parent{
+    overflow: hidden;
+    background-color: #f1f1f1;
+    padding: 20px 10px;
+    width: 100%;
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+.header-right {
+    float: right !important;
+    padding-top: 15px;
+    right: 10px;
+    position: absolute;
+}
+  
+.header-parent a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.header-title {
+    font-size: 20px;
+    font-family: Verdana, Geneva, sans-serif;
+    font-weight: bold;
+    float: left !important;
+}
+

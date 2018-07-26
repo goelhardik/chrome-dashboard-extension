@@ -2,10 +2,11 @@ import * as React from 'react';
 import { PrimaryButton } from 'office-ui-fabric-react/lib/Button';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import { WidgetGroup, Choice } from './WidgetGroup';
+import "./CustomizingPanel.css"
 
 export interface ICustomizingPanelProps {
     choices: { [key: string]: Choice }
-    onDismissPanel: (choices : { [key: string]: Choice }) => void
+    onDismissPanel: (choices: { [key: string]: Choice }) => void
 }
 
 export interface ICustomizingPanelState {
@@ -25,20 +26,23 @@ export class CustomizingPanel extends React.Component<ICustomizingPanelProps, IC
 
     public render(): JSX.Element {
         return (
-            <div>
-                <PrimaryButton text="Configure" onClick={this._showPanel} />
-                <Panel
-                    type={PanelType.custom}
-                    isOpen={this.state.showPanel}
-                    isLightDismiss={true}
-                    headerText="Select widgets for your dashboard"
-                    onDismiss={this._hidePanel}
-                    customWidth={"40%"}
-                >
-                    <WidgetGroup
-                        choices={this.state.choices}
-                        onChoicesChanged={this.onChoicesChanged} />
-                </Panel>
+            <div className="header-parent">
+                <p className="header-title">Dashboard</p>
+                <div className="header-right">
+                    <PrimaryButton text="Configure" onClick={this._showPanel} />
+                    <Panel
+                        type={PanelType.custom}
+                        isOpen={this.state.showPanel}
+                        isLightDismiss={true}
+                        headerText="Select widgets for your dashboard"
+                        onDismiss={this._hidePanel}
+                        customWidth={"40%"}
+                    >
+                        <WidgetGroup
+                            choices={this.state.choices}
+                            onChoicesChanged={this.onChoicesChanged} />
+                    </Panel>
+                </div>
             </div>
         );
     }

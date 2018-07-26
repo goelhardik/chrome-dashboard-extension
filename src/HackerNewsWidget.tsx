@@ -4,11 +4,8 @@ import './App.css';
 import { HackernewsClient } from './Clients/HackernewsClient';
 import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib/Spinner';
 import { List } from 'office-ui-fabric-react/lib/List';
-import { PrimaryButton } from 'office-ui-fabric-react/lib/Button';
 import './HackerNewsWidget.css';
 import { WidgetHeader } from './WidgetHeader';
-//import "@{fa_path}/icons.less";
-//import "node_modules/font-awesome/less/font-awesome.less"
 
 export interface IHackerNewsWidgetProps {
     dragWidget: (element: any) => void
@@ -28,7 +25,7 @@ export class HackerNewsWidget extends React.Component<IHackerNewsWidgetProps, IH
         this.hackerNews = new HackernewsClient();
         this.state = {
             feed: new Array<Item>(),
-            isLoadingFeed: false
+            isLoadingFeed: true
         };
     }
 
@@ -40,9 +37,8 @@ export class HackerNewsWidget extends React.Component<IHackerNewsWidgetProps, IH
     public render() {
         let content: JSX.Element;
 
-        if (this.state.feed.length == 0 && !this.state.isLoadingFeed) {
-            content = this.renderShowHackerNewsButton();
-        } else if (this.state.isLoadingFeed) {
+        if (this.state.isLoadingFeed) {
+            this.getHackerNews();
             content = this.renderSpinner();
         } else {
             content =
@@ -50,7 +46,7 @@ export class HackerNewsWidget extends React.Component<IHackerNewsWidgetProps, IH
                     className="hackerHeadline"
                     items={this.state.feed}
                     onRenderCell={this.onRenderCell} />
-        }
+        } 
 
         return (
             <div className="widget" id="hackernews-widget">
@@ -66,14 +62,14 @@ export class HackerNewsWidget extends React.Component<IHackerNewsWidgetProps, IH
         );
     }
 
-    private renderShowHackerNewsButton = (): JSX.Element => {
-        return (
-            <PrimaryButton
-                text="test"
-                onClick={this.getHackerNews} />
+    // private renderShowHackerNewsButton = (): JSX.Element => {
+    //     return (
+    //         <PrimaryButton
+    //             text="test"
+    //             onClick={this.getHackerNews} />
 
-        );
-    }
+    //     );
+    // }
 
     private renderSpinner = (): JSX.Element => {
         return (
@@ -93,9 +89,6 @@ export class HackerNewsWidget extends React.Component<IHackerNewsWidgetProps, IH
     }
 
     private getHackerNews = () => {
-        this.setState({
-            isLoadingFeed: true
-        });
         this.hackerNews.getFeed(this.loadFeed);
     }
 
@@ -104,6 +97,7 @@ export class HackerNewsWidget extends React.Component<IHackerNewsWidgetProps, IH
             feed: response.items,
             isLoadingFeed: false
         });
-        //console.log(response);
+        console.log(response);
+        console.log(this.state.isLoadingFeed);
     }
 }
