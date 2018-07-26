@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { Feed, Item } from './Clients/IClient';
-import './App.css';
-import { HackernewsClient } from './Clients/HackernewsClient';
+import 'src/App.css';
 import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib/Spinner';
 import { List } from 'office-ui-fabric-react/lib/List';
-import './HackerNewsWidget.css';
-import { WidgetHeader } from './WidgetHeader';
+import 'src/Widgets/HackerNewsWidget.css';
+import { WidgetHeader } from 'src/Widgets/WidgetHeader';
+import { Item, Feed } from 'src/Clients/IClient';
+import { HackernewsClient } from 'src/Clients/HackernewsClient';
 
 export interface IHackerNewsWidgetProps {
     dragWidget: (element: any) => void
@@ -19,6 +19,8 @@ export interface IHackerNewsWidgetState {
 
 export class HackerNewsWidget extends React.Component<IHackerNewsWidgetProps, IHackerNewsWidgetState> {
     private hackerNews: HackernewsClient;
+    private elementTopPosKey: string = "chrome-agg-drag-and-drop-top-";
+    private elementLeftPosKey: string = "chrome-agg-drag-and-drop-left-";
 
     constructor(props: IHackerNewsWidgetProps) {
         super(props);
@@ -30,8 +32,13 @@ export class HackerNewsWidget extends React.Component<IHackerNewsWidgetProps, IH
     }
 
     public componentDidMount() {
-        const widget = document.getElementById("hackernews-widget");
+        const id = "hackernews-widget";
+        const widget = document.getElementById(id);
         this.props.dragWidget(widget);
+        if (localStorage[this.elementTopPosKey + id]) {
+            widget.style.top = localStorage[this.elementTopPosKey + id];
+            widget.style.left = localStorage[this.elementLeftPosKey + id];
+        }
     }
 
     public render() {
@@ -46,17 +53,17 @@ export class HackerNewsWidget extends React.Component<IHackerNewsWidgetProps, IH
                     className="hackerHeadline"
                     items={this.state.feed}
                     onRenderCell={this.onRenderCell} />
-        } 
+        }
 
         return (
             <div className="widget" id="hackernews-widget">
                 {/* <div className="parent" id="hackernews-widget-header"> */}
-                    <WidgetHeader
-                        id="hackernews-widget"
-                        backgroundColor={"#F46523"}
-                        href={"https://news.ycombinator.com/"}
-                        icon={<i className="fa fa-hacker-news fa-3x" aria-hidden="true"></i>} />
-                    {content}
+                <WidgetHeader
+                    id="hackernews-widget"
+                    backgroundColor={"#F46523"}
+                    href={"https://news.ycombinator.com/"}
+                    icon={<i className="fa fa-hacker-news fa-3x" aria-hidden="true"></i>} />
+                {content}
                 {/* </div> */}
             </div>
         );

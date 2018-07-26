@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './WidgetHeader.css';
+import 'src/Widgets/WidgetHeader.css';
 
 export interface IWidgetHeaderProps {
     backgroundColor?: string;

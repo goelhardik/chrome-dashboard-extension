@@ -1,17 +1,13 @@
 .header-parent{
     overflow: hidden;
     background-color: #f1f1f1;
-    padding: 20px 10px;
-    width: 100%;
-    display: flex !important;
-    flex-direction: row !important;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1%;
 }
 
 .header-right {
-    float: right !important;
-    padding-top: 15px;
-    right: 10px;
-    position: absolute;
 }
   
 .header-parent a:hover {
@@ -23,6 +19,28 @@
     font-size: 20px;
     font-family: Verdana, Geneva, sans-serif;
     font-weight: bold;
-    float: left !important;
+    margin: 0px;
 }
 
+.ms-CalloutExample-subText {
+    margin: 10px;
+}
+
+.fade-body {
+    margin: 0 auto;
+    text-align: center;
+    background: #676767;
+    /* radial-gradient(ellipse at center, rgba(0,0,0,0.45) 0%,rgba(0,0,0,0) 100%); */
+}
+
+.highlight-button {
+  box-shadow: 0 0 0 99999px rgba(0, 0, 0, .8);
+  position: relative;
+  z-index: 9999;
+  pointer-events:  auto;
+  transition: all 0.5s ease;
+}
+
+.ms-Callout-callout {
+    box-shadow: rgba(0, 0, 0, 0.23) 5px 5px 5px 5px !important;
+}

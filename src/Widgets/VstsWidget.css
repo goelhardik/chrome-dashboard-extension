@@ -1,0 +1,91 @@
+@import url('../../node_modules/font-awesome/css/font-awesome.min.css');
+
+.widget-container {
+  display: flex;
+  flex-flow: row;
+  height: 40%;
+  margin-left: 10%;
+  margin-right: 10%;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+  font-size: 14px;
+}
+
+.widget {
+  flex: 0 0 auto;
+  width: 40%;
+  padding: 1%;
+  overflow: auto;
+  resize: both;
+  height: inherit;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.16), 0 0 0 2px rgba(0,0,0,.04);
+}
+
+.feed-content {
+    margin-top: 50px;
+}
+
+#vsts-widget {
+  position: absolute;
+  background-color: rgb(255, 255, 255);
+}
+
+#vsts-widget::-webkit-scrollbar {
+    width: 12px;
+    background-color: #F5F5F5;
+}
+
+#vsts-widget::-webkit-scrollbar-thumb {
+  background-color: #8c8888;
+  border-radius: 20%;
+}
+
+#vsts-widget::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+}
+
+#vsts-widget-header {
+    cursor: move;
+    z-index: 10;
+    color: #fff;
+}
+
+
+.parent{
+    display:flex;
+    flex-direction: column;
+}
+
+/* 
+  .ms-ListBasicExample-itemCell:hover {
+    background: #EEE;
+  }
+
+  .ms-ListBasicExample-itemImage {
+    flex-shrink: 0;
+  }
+
+  .ms-ListBasicExample-itemContent {
+    overflow: hidden;
+    flex-grow: 1;
+  }
+
+  .ms-ListBasicExample-itemName {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .ms-ListBasicExample-itemIndex {
+    font-size: $ms-font-size-s;
+    color: $ms-color-neutralTertiary;
+    margin-bottom: 10px;
+  }
+
+  .ms-ListBasicExample-chevron {
+    align-self: center;
+    color: $ms-color-neutralTertiary;
+    font-size: $ms-font-size-l;
+    flex-shrink: 0;
+  } */

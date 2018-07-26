@@ -1,32 +1,30 @@
 import * as React from 'react';
-// import { Feed, Item } from './Clients/IClient';
-import './App.css';
-// import { PrimaryButton } from 'office-ui-fabric-react/lib/Button';
-// import { List } from 'office-ui-fabric-react/lib/List';
+import 'src/App.css';
 import { PrimaryButton } from 'office-ui-fabric-react/lib/Button';
-// import { GithubClient } from './Clients/GithubClient';
-import './GithubWidget.css';
-import { GithubClient } from './Clients/GithubClient';
+import 'src/Widgets/VstsWidget.css';
 import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib/Spinner';
-import { AuthorizationConstants, AccessTokenRetriever } from './AccessTokenRetriever';
-import { WidgetHeader } from './WidgetHeader';
+import { WidgetHeader } from 'src/Widgets/WidgetHeader';
+import { GithubClient } from 'src/Clients/GithubClient';
+import { AccessTokenRetriever, AuthorizationConstants } from 'src/AccessTokenRetriever';
 
-export interface IGithubWidgetProps {
+export interface IVstsWidgetProps {
   dragWidget: (element: any) => void
 }
 
-export interface IGithubWidgetState {
+export interface IVstsWidgetState {
   feed: any;
   isLoadingFeed: boolean;
   accessToken: string;
 
 }
 
-export class GithubWidget extends React.Component<IGithubWidgetProps, IGithubWidgetState> {
+export class VstsWidget extends React.Component<IVstsWidgetProps, IVstsWidgetState> {
   private github: GithubClient;
   private tokenRetriever: AccessTokenRetriever;
+  private elementTopPosKey: string = "chrome-agg-drag-and-drop-top-";
+  private elementLeftPosKey: string = "chrome-agg-drag-and-drop-left-";
 
-  constructor(props: IGithubWidgetProps) {
+  constructor(props: IVstsWidgetProps) {
     super(props);
     this.github = new GithubClient();
     this.tokenRetriever = new AccessTokenRetriever(this.setAccessToken);
@@ -39,8 +37,13 @@ export class GithubWidget extends React.Component<IGithubWidgetProps, IGithubWid
   }
 
   public componentDidMount() {
-    const widget = document.getElementById("github-widget");
+    const id = "vsts-widget";
+    const widget = document.getElementById(id);
     this.props.dragWidget(widget);
+    if (localStorage[this.elementTopPosKey + id]) {
+      widget.style.top = localStorage[this.elementTopPosKey + id];
+      widget.style.left = localStorage[this.elementLeftPosKey + id];
+    }
   }
 
   public render() {
@@ -54,14 +57,14 @@ export class GithubWidget extends React.Component<IGithubWidgetProps, IGithubWid
     }
 
     return (
-      <div className="widget" id="github-widget">
+      <div className="widget" id="vsts-widget">
         {/* <div className="parent" id="github-widget-header"> */}
-          <WidgetHeader
-            id="github-widget"
-            backgroundColor={"#000000"}
-            href={"https://github.com/"}
-            icon={<i className="fa fa-github fa-3x" aria-hidden="true"></i>} />
-          {content}
+        <WidgetHeader
+          id="vsts-widget"
+          backgroundColor={"#226db5"}
+          href={"https://mseng.visualstudio.com/"}
+          icon={<img src="vsts-icon.png" height="42" width="36" />} />
+        {content}
         {/* </div> */}
       </div>
     );

@@ -1,18 +1,19 @@
 import * as React from 'react';
-import './App.css';
-import { GithubWidget } from './GithubWidget';
-import { HackerNewsWidget } from './HackerNewsWidget';
-// import * as OAuth from './OAuth.js';
-import './GithubWidget.css';
-import { CustomizingPanel } from './Customizer/CustomizingPanel';
-import { Choice } from './Customizer/WidgetGroup';
-// import {Header} from './Header';
+import 'src/App.css';
+import { GithubWidget } from 'src/Widgets/GithubWidget';
+import { HackerNewsWidget } from 'src/Widgets/HackerNewsWidget';
+import { VstsWidget } from 'src/Widgets/VstsWidget';
+import 'src/Widgets/GithubWidget.css';
+import { CustomizingPanel } from 'src/Customizer/CustomizingPanel';
+import { Choice } from 'src/Customizer/WidgetGroup';
 
 interface IAppState {
   widgetChoices: { [key: string]: Choice }
 }
 
 class App extends React.Component<any, IAppState> {
+  private widgetChoicesKey: string = "chrome-agg-widget-choices-";
+  private isCalloutVisibleKey: string = "chrome-agg-callout";
 
   constructor(props: any) {
     super(props);
@@ -22,51 +23,69 @@ class App extends React.Component<any, IAppState> {
       "name": "Github",
       "key": "github",
       "img": "GitHub-Mark-32px.png",
-      "selected": true
+      "selected": localStorage[this.widgetChoicesKey + "github"] === "true" ? true : false
     };
     choices["hackernews"] = {
       "name": "HackerNews",
       "key": "hackernews",
-      "img": "GitHub-Mark-32px.png",
-      "selected": false
+      "img": "hacker-news-brands.svg",
+      "selected": localStorage[this.widgetChoicesKey + "hackernews"] === "true" ? true : false
     };
     choices["vsts"] = {
       "name": "VSTS",
       "key": "vsts",
-      "img": "visual-studio-team-services.jpg",
-      "selected": false
+      "img": "vsts-icon.png",
+      "selected": localStorage[this.widgetChoicesKey + "vsts"] === "true" ? true : false
     };
 
+    this.updateCalloutVisible(choices);
     this.state = {
       widgetChoices: choices
     };
   }
 
   public render() {
+
     return (
       <div className="app-container">
         <div className="App">
-          {/* <header className="App-header">
-            <h1 className="App-title">Dashboard</h1>
-          </header> */}
-          {/* <Header /> */}
-          <CustomizingPanel 
+          {/* <header className="App-header"> */}
+          {/* <h1 className="App-title">Dashboard</h1> */}
+          {/* </header> */}
+          <CustomizingPanel
             choices={this.state.widgetChoices}
             onDismissPanel={this.updateChoices} />
         </div>
         <div className="widget-container">
-          {this.state.widgetChoices["github"].selected && 
-            <GithubWidget 
+          {this.state.widgetChoices["github"].selected &&
+            <GithubWidget
               dragWidget={this.dragElement} />}
-          {this.state.widgetChoices["hackernews"].selected && 
-            <HackerNewsWidget 
+          {this.state.widgetChoices["hackernews"].selected &&
+            <HackerNewsWidget
+              dragWidget={this.dragElement} />}
+          {this.state.widgetChoices["vsts"].selected &&
+            <VstsWidget
               dragWidget={this.dragElement} />}
         </div>
       </div>
     );
   }
 
-  private updateChoices = (choices : { [key: string]: Choice }) => {
+  private updateCalloutVisible = (choices: any) => {
+    localStorage[this.isCalloutVisibleKey] = true;
+    for (var key in choices) {
+      if (choices[key].selected) {
+        localStorage[this.isCalloutVisibleKey] = false;
+        break;
+      }
+    }
+  }
+
+  private updateChoices = (choices: { [key: string]: Choice }) => {
+    for (var key in choices) {
+      localStorage[this.widgetChoicesKey + key] = choices[key].selected;
+    }
+    this.updateCalloutVisible(choices);
     this.setState({
       widgetChoices: choices
     });
@@ -104,6 +123,8 @@ class App extends React.Component<any, IAppState> {
       // set the element's new position:
       elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
       elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+      localStorage["chrome-agg-drag-and-drop-top-" + elmnt.id] = elmnt.style.top;
+      localStorage["chrome-agg-drag-and-drop-left-" + elmnt.id] = elmnt.style.left;
     }
 
     function closeDragElement() {
