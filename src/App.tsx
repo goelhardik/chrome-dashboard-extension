@@ -1,11 +1,10 @@
 import * as React from 'react';
 import 'src/App.css';
-import { GithubWidget } from 'src/Widgets/GithubWidget';
 import { HackerNewsWidget } from 'src/Widgets/HackerNewsWidget';
 import { VstsWidget } from 'src/Widgets/VstsWidget';
-import 'src/Widgets/GithubWidget.css';
 import { CustomizingPanel } from 'src/Customizer/CustomizingPanel';
 import { Choice } from 'src/Customizer/WidgetGroup';
+import { GithubWidget } from 'src/Widgets/Github/GithubWidget';
 
 interface IAppState {
   widgetChoices: { [key: string]: Choice }

@@ -94,7 +94,7 @@ export class VstsWidget extends React.Component<IVstsWidgetProps, IVstsWidgetSta
       accessToken: accessToken,
       isLoadingFeed: true
     });
-    this.github.getFeed(this.onFeedGot, accessToken, this.invalidateAccessToken);
+    this.github.getFeed(this.onFeedGot, this.invalidateAccessToken);
   }
 
   private invalidateAccessToken = () => {

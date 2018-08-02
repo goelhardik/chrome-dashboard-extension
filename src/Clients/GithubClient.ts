@@ -1,18 +1,23 @@
 // import { IClient, Feed, Item } from "./IClient";
 import { IClient } from "./IClient";
 import { ApiClient } from "./ApiClient";
-import { AuthorizationConstants } from "../AccessTokenRetriever";
+import { GithubConstants } from "../Shared/Constants";
 
 export class GithubClient extends ApiClient implements IClient {
 
-    public getFeed(callback: any, accessToken?: any, errorCallback?: any) {
-        // tslint:disable-next-line:no-console
-        if (accessToken) {
-            console.log("calling with access token: " + accessToken);
-            console.log("accesstoken is: " + accessToken[AuthorizationConstants.github.storageKey]);
-        }
-        this.performXhrRequest("GET", "https://github.com/dashboard-feed", (response: any) => {
+    public getFeed(callback: any, errorCallback?: any) {
+        this.performXhrRequest("GET", GithubConstants.Feed, (response: any) => {
             callback(response);
-        }, [["Authorization", "token " + accessToken]], errorCallback);
+        }, [], errorCallback);
+    }
+
+    public discoverRepositories(callback: any, errorCallback?: any) {
+        this.performXhrRequest("GET", GithubConstants.Discover, (response: any) => {
+            callback(response);
+        }, [], errorCallback);
+    }
+
+    public isLoggedIn(callback: (xhr: XMLHttpRequest) => void, errorCallback: (xhr: XMLHttpRequest) => void) {
+        this.performXhrRequest("GET", GithubConstants.IsLoggedIn, callback, [], errorCallback);
     }
 }

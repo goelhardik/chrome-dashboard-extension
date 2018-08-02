@@ -1,4 +1,4 @@
-@import url('../../node_modules/font-awesome/css/font-awesome.min.css');
+@import url('../../../node_modules/font-awesome/css/font-awesome.min.css');
 
 .fa-github {color: white;}
 
@@ -24,6 +24,10 @@
 
 .mr-3 {
     margin-right: 16px !important;
+}
+
+.mr-2 {
+    margin-right: 8px !important;
 }
 
 .border-bottom {
@@ -156,6 +160,9 @@ a {
     flex-direction: column;
 }
 
+.ms-FocusZone {
+    margin-bottom: 10px;
+}
 /* 
   .ms-ListBasicExample-itemCell:hover {
     background: #EEE;
